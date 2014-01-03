@@ -1,0 +1,32 @@
+importFrom(MASS, mvrnorm)
+importFrom(coin, independence_test)
+importFrom(RItools, xBalance)
+importFrom(tables, tabular)
+importFrom(penalized, contr.none, contr.diff)
+
+export(
+ccif,checkBalance,explore,niv,performance,predict.ccif,
+predict.upliftRF,qini,rvtu,sim_pte,tian_transf,
+upliftKNN,upliftRF,varImportance,
+trt,
+modelProfile)
+
+### Methods
+
+S3method(print, upliftRF)
+S3method(summary, upliftRF)
+S3method(predict, upliftRF)
+S3method(varImportance, upliftRF)
+S3method(print, ccif)
+S3method(summary, ccif)
+S3method(predict, ccif)
+S3method(varImportance, ccif)
+S3method(qini, performance)
+
+S3method(upliftRF, formula)
+S3method(upliftRF, default)
+S3method(ccif, formula)
+S3method(ccif, default)
+S3method(qini, default)
+S3method(varImportance, default)
+

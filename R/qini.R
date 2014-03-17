@@ -7,19 +7,36 @@ qini <- function(x, ...)  UseMethod("qini")
 qini.default <- function(x, ...)
   stop("uplift: No method implemented for this class of object")
 
-qini.performance <- function(x, plotit = TRUE, ...) {
+qini.performance <- function(x, direction = 1, plotit = TRUE, ...) {
   
   if (!inherits(x, "performance"))
     stop("uplift: x is not of class performance")
   
+  ### check valid arguments
+  if (!direction %in% c(1, 2))
+    stop("uplift: direction must be either 1 or 2")
+  
   perf <- x
   groups <- nrow(perf)
   
-  ### Model Incremental gains 
-  inc.gains <- cumsum(perf[, 6] / groups)
+  if (direction == 1) {
   
-  ### Overall incremental gains
-  overall.inc.gains <- sum(perf[, 6]) / groups
+    ### Model Incremental gains 
+    inc.gains <- cumsum(perf[, 4] - perf[, 5] * sum(perf[, 2]) / sum(perf[, 3])) / sum(perf[, 2])
+  
+    ### Overall incremental gains
+    overall.inc.gains <- sum(perf[, 4]) / sum(perf[, 2]) - sum(perf[, 5]) / sum(perf[, 3])
+  
+  
+  } else {
+    
+    ### Model Incremental gains 
+    inc.gains <- cumsum(-1 * (perf[, 4] - perf[, 5] * sum(perf[, 2]) / sum(perf[, 3]))) / sum(perf[, 2])
+      
+    ### Overall incremental gains
+    overall.inc.gains <- sum(perf[, 5]) / sum(perf[, 3]) - sum(perf[, 4]) / sum(perf[, 2]) 
+    
+ }
   
   ### Random incremental gains
   random.inc.gains <- cumsum(rep(overall.inc.gains / groups, groups))

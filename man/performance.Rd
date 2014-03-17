@@ -19,7 +19,7 @@ performance(pr.y1_ct1, pr.y1_ct0, y, ct, direction = 1, groups = 10)
 Model performance is estimated by: 1. computing the difference in the predicted conditional class probabilities \eqn{Prob(y=1|treated, x)} and \eqn{Prob(y=1|control, x)}, 2. ranking the difference and grouping it into 'buckets' with equal number of observations each, and 3. computing the actual difference in the mean of the response variable between the treatment and the control groups for each bucket.
 }
 \value{
-An object of class \code{performance}, which is a matrix  with the following columns: (\code{decile}) the number of groups, (\code{n.ct0}) the number of observations in the control group, (\code{n.ct1}) the number of observations in the treatment group, (\code{y1_ct0}) the mean of the response for the control group, (\code{y1_ct1}) the mean of the response for the treatment group, and (\code{uplift}) the difference between \code{y1_ct1} and \code{y1_ct0} (if \code{direction = 1}).
+An object of class \code{performance}, which is a matrix  with the following columns: (\code{group}) the number of groups, (\code{n.ct1}) the number of observations in the treated group, (\code{n.ct0}) the number of observations in the control group, (\code{n.y1_ct1}) the number of observation in the treated group with response = 1, (\code{n.y1_ct0}) the number of observation in the control group with response = 1, (\code{r.y1_ct1}) the mean of the response for the treated group, (\code{r.y1_ct0}) the mean of the response for the control group, and (\code{uplift}) the difference between \code{r.y1_ct1} and \code{r.y1_ct0} (if \code{direction = 1}).
 }
 \references{
 Guelman, L., Guillen, M., and Perez-Marin A.M. (2013). Uplift random forests. Cybernetics & Systems, \emph{forthcoming}.
@@ -61,7 +61,7 @@ pred <- predict(fit1, dd_new)
 ### evaluate model performance
 
 perf <- performance(pred[, 1], pred[, 2], dd_new$y, dd_new$treat, direction = 1)
-plot(perf[, 6] ~ perf[, 1], type ="l", xlab = "Decile", ylab = "uplift")  
+plot(perf[, 8] ~ perf[, 1], type ="l", xlab = "Decile", ylab = "uplift")  
 }
 \keyword{uplift}
 \keyword{trees}

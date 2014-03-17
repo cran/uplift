@@ -19,9 +19,9 @@ performance <- function(pr.y1_ct1, pr.y1_ct0, y, ct,
   
   ### check classes
   if(!is.numeric(y))
-    stop("uplift: y must be a numeric vector. Aborting...")
+    stop("uplift: y must be a numeric vector")
   if(!is.numeric(ct))
-    stop("uplift: ct must be a numeric vector. Aborting...")
+    stop("uplift: ct must be a numeric vector")
    
   ### check valid values for y and ct
   if (!all(y %in% c(0, 1)))
@@ -41,30 +41,42 @@ performance <- function(pr.y1_ct1, pr.y1_ct0, y, ct,
     dif.pred = pr.y1_ct1 - pr.y1_ct0
     }
   
-  mm <- cbind(dif.pred = dif.pred, y = y, ct = ct)
+  
   mm <- cbind(dif.pred = dif.pred, y = y, ct = ct, dif.pred_r = rank(-dif.pred))
-  mm <- cbind(mm, decile = cut(mm[, 4], breaks = quantile(mm[, 4], 
-                               probs = seq(0, 1, 1 / groups)), labels = NULL, 
+  bk <- unique(quantile(mm[, 4], 
+                        probs = seq(0, 1, 1 / groups)))
+  if ((length(bk)-1) != groups)
+    warning("uplift: due to ties in uplift predictions, the number of groups is less than ", groups)  
+   
+  mm <- cbind(mm, decile = cut(mm[, 4], breaks = bk, labels = NULL, 
                                include.lowest = TRUE)) 
   
-  
-  y1_ct0 <- tapply(mm[mm[, 3] == 0, ][, 2], mm[mm[, 3] == 0, ][, 5], mean)
-  y1_ct1 <- tapply(mm[mm[, 3] == 1, ][, 2], mm[mm[, 3] == 1, ][, 5], mean)
+  n.y1_ct0 <- tapply(mm[mm[, 3] == 0, ][, 2], mm[mm[, 3] == 0, ][, 5], sum)
+  n.y1_ct1 <- tapply(mm[mm[, 3] == 1, ][, 2], mm[mm[, 3] == 1, ][, 5], sum)
+  r.y1_ct0 <- tapply(mm[mm[, 3] == 0, ][, 2], mm[mm[, 3] == 0, ][, 5], mean)
+  r.y1_ct1 <- tapply(mm[mm[, 3] == 1, ][, 2], mm[mm[, 3] == 1, ][, 5], mean)
   n.ct0 <- tapply(mm[mm[, 3] == 0, ][, 2], mm[mm[, 3] == 0, ][, 5], length)
   n.ct1 <- tapply(mm[mm[, 3] == 1, ][, 2], mm[mm[, 3] == 1, ][, 5], length)
   
-  df <- merge(cbind(y1_ct0, n.ct0), cbind(y1_ct1, n.ct1), by= "row.names", all = TRUE)             
+  df <- merge(cbind(n.y1_ct0, r.y1_ct0, n.ct0), cbind(n.y1_ct1, r.y1_ct1, n.ct1), by= "row.names", all = TRUE)             
+  
   df$Row.names <- as.numeric(df$Row.names)
-  df[, c(3,5)][is.na(df[, c(3, 5)])] <- 0 # missing implies 0 counts
+  df[, c(2, 4, 5, 7)][is.na(df[, c(2, 4, 5, 7)])] <- 0 # missing implies 0 counts
   
   if (direction == 2) {
-    df$uplift = df$y1_ct0 - df$y1_ct1} else {
-      df$uplift = df$y1_ct1 - df$y1_ct0
+    df$uplift = df$r.y1_ct0 - df$r.y1_ct1} else {
+      df$uplift = df$r.y1_ct1 - df$r.y1_ct0
     }
   df <- df[order(df$Row.names), ]
   
-  res <- cbind(decile = df$Row.names, n.ct0 = df$n.ct0, n.ct1 = df$n.ct1,
-               y1_ct0 = df$y1_ct0, y1_ct1 = df$y1_ct1, uplift = df$uplift)
+  res <- cbind(group   = df$Row.names,
+               n.ct1    = df$n.ct1,
+               n.ct0    = df$n.ct0, 
+               n.y1_ct1 = df$n.y1_ct1, 
+               n.y1_ct0 = df$n.y1_ct0,
+               r.y1_ct1 = df$r.y1_ct1, 
+               r.y1_ct0 = df$r.y1_ct0,
+               uplift   = df$uplift)
   
   res <- round(res, 6)
   class(res) <- "performance"

@@ -1,4 +1,4 @@
-b4ecf9613222234406687b70a5390990 *DESCRIPTION
+48472c8858c0585d0b115e2b58f839bb *DESCRIPTION
 3f076eaf2f13a6d17e5c12fb092d929a *NAMESPACE
 4594f584431d503e807a6a8024719f73 *R/L1norm.R
 a0b082a8fe7bde3f78a264646e199a2c *R/buildTree.R
@@ -16,10 +16,10 @@ a5e61dea827f320d40d5b88b3375b676 *R/klDivergence.R
 1e0603cb29c75c2247caf92e14d6a153 *R/misc.R
 90044f28b19cea99e5163458d3010dda *R/modelProfile.R
 9384f2363969bc7431179e31c6dc88ba *R/niv.R
-b8460d29f4eed6880ecdc72477f13c64 *R/performance.R
+a640e86b9ff8a33f73d5057a6d719e6d *R/performance.R
 01b41437468b697fc1337ff2960b1dba *R/predict.R
 78ec99067268eadccb4d01127cf1592a *R/print.R
-c10d266a81e3282637fd8c475d4bc69e *R/qini.R
+14117d22a6d12d02ba6b60c6c55f6933 *R/qini.R
 d1a7f90b11c3d9edf7d07487f5e9d5e5 *R/rvtu.R
 63ddc0bb481ef1a23ce1a981ddc30589 *R/sim_pte.R
 b8e4d6cf6153aef304965f6bfc57c288 *R/summary.R
@@ -34,10 +34,10 @@ a341f25a5d2a2e2c4b059ba711efceaa *R/upliftKNN.R
 201604a0de98158f0076445528498206 *man/explore.Rd
 5b0c6ef952b2611ad97ce66ad9e3287e *man/modelProfile.Rd
 c90932ca0940faac048e4ba5fc6fbb62 *man/niv.Rd
-3a12f3bf9100adf4dde4c442c47a9686 *man/performance.Rd
+6de5b9609975f6bb0f93f99458da708f *man/performance.Rd
 ecf2ad2dedc4e6c2f6a0ff43c1122b11 *man/predict.ccif.Rd
 78dffd579f28fbda0e7f61d0b699d2de *man/predict.upliftRF.Rd
-04d1a96dda08d079e268a10d24abea85 *man/qini.Rd
+d5dd1630f27b46a3080270189b48bbcc *man/qini.Rd
 019821a8ff729e2d6b5b9ef7493a339e *man/rvtu.Rd
 00bb663c5563239323274d041d816f36 *man/sim_pte.Rd
 531dfd481dfd1636ea24e4716d3f5f2d *man/tian_transf.Rd

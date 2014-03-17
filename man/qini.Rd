@@ -8,10 +8,11 @@
 \description{This function computes the Qini coefficient from a \code{performance} object (as created by the function \code{performance}). 
 }
 \usage{
-\method{qini}{performance}(x, plotit = TRUE, ...)
+\method{qini}{performance}(x, direction = 1, plotit = TRUE, ...)
 }
 \arguments{
   \item{x}{an object of class \code{performance}.}
+  \item{direction}{possible values are \code{1} (default) if the objective is to maximize the difference in the response for Treatment minus Control, and \code{2} for Control minus Treatment.}
   \item{plotit}{plot the incremental gains from the fitted model?}
   \item{\dots}{additional arguments passed to \code{plot}.}
 }
